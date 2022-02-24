@@ -1,3 +1,8 @@
+"""
+Program to display the weather in different cities via a custom gui.
+Tkinter does not allow gui window customization so i had to create my own title bar for the gui.
+USing web scraping, the UI displays images of the cities searched for along with current temp, highs, lows and conditions.
+"""
 import tkinter
 from tkinter import ttk
 import random
@@ -11,10 +16,13 @@ from pyowm import OWM
 from tkinter import *
 
 
+#Created functions to allow custom gui to be moved around by the user.
 def move_app(e):
     window.geometry(f'+{e.x_root}+{e.y_root}')
+#Function to allow the window to be quit with the x in the corner.
 def quitter(e):
     window.quit()
+#Web scaping function to get images for the cities the user searches for.
 def soup(city):
     url = "https://unsplash.com/s/photos/" +city+ "-skyline"
     page = requests.get(url)
@@ -27,6 +35,7 @@ def soup(city):
     #print(len(links))
     return links
 
+#Functiin to initiate the city search process via OpenWeatherMap.
 def clicked():
     global background
     global symbol
@@ -42,7 +51,7 @@ def clicked():
     temp = weather.temperature('celsius')
     temps = list(temp.values())
 
-
+    #Changes the weather symbol depending on the city conditions 
     if weather.detailed_status == 'broken clouds' or weather.detailed_status == 'few clouds' or weather.detailed_status == 'scattered clouds':
         symbol = "\u2601\n"
     if weather.detailed_status == 'clear sky':
